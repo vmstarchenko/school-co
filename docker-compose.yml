@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    build: ./etc/docker/db
+    restart: always
+    volumes:
+      - ./var/volumes/dbdata:/var/lib/mysql
+    env_file:
+      - ./etc/docker/db/env
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u root --password=example
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "3306:3306"
+
+  server: &web
+    build:
+      context: .
+      dockerfile: ./etc/docker/web/Dockerfile
+    volumes:
+      - ./server:/home/web/server
+    depends_on:
+      db: {condition: service_healthy}
+
+    ports:
+      - "8080:8080"
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]

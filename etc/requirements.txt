@@ -1,0 +1,5 @@
+PyYAML
+django
+django-environ
+django-extensions
+mysqlclient
