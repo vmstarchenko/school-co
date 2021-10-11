@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'school_co',
 
     'django_extensions',
+    'rest_framework',
+    'drf_generators',
 ]
 
 MIDDLEWARE = [
@@ -114,6 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'base.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

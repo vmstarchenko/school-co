@@ -2,4 +2,9 @@ PyYAML
 django
 django-environ
 django-extensions
+django-filter
+djangorestframework
+drf-generators
+drf-spectacular
+markdown
 mysqlclient
