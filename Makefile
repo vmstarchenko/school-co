@@ -16,9 +16,17 @@ connect:
 
 api_schema:
 	docker-compose run server python manage.py \
-		spectacular --force-color --fail-on-warn --format openapi 1> etc/api-schema.yaml 2> tmp/cmd.err ; \
+		spectacular --force-color --fail-on-warn --format openapi 1> ./etc/api-schema.yaml 2> tmp/cmd.err ; \
 		cat tmp/cmd.err \
+
+api_client: api_schema
+	rm -rf ./var/volumes/api_client/* && \
+	cp etc/api-schema.yaml etc/docker/openapitools/api-schema.yaml && \
+	docker build etc/docker/openapitools -t local-openapitools && \
+	docker run -v "${PWD}/var/volumes/api_client":/home/user/api_client --rm local-openapitools \
+		generate -i ./etc/api-schema.yaml -g typescript-angular -o ./api_client
 
 manage:
 	docker-compose run server python manage.py
+
 
