@@ -36,8 +36,6 @@ class UserViewSet(viewsets.ModelViewSet):
         permission_classes=[AllowAny],
     )
     def login(self, request):
-        print(request.__dict__)
-        print('r', request.GET, request.POST, request.data)
         form = self.LoginFormSerializer(data=request.data)
         if not form.is_valid():
             return Response({
@@ -58,8 +56,6 @@ class UserViewSet(viewsets.ModelViewSet):
     @extend_schema(request=EmptySerializer, operation_id='user_logout')
     @action(detail=False, methods=['post'])
     def logout(self, request):
-        # pylint: disable=no-self-use
-
         return Response({
             'success': 'You have successfully logged out',
         })
@@ -73,7 +69,6 @@ class UserViewSet(viewsets.ModelViewSet):
     )
     @action(detail=False, methods=['get'], permission_classes=[AllowAny])
     def me(self, request):
-        # pylint: disable=no-self-use
         return Response(FullUserSerializer(
             request.user,
             context={'request': request},
