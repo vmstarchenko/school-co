@@ -4,6 +4,7 @@ django-environ
 django-extensions
 django-filter
 djangorestframework
+djangorestframework-camel-case
 drf-spectacular
 markdown
 mysqlclient

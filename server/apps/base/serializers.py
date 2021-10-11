@@ -16,12 +16,17 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class FullUserSerializer(UserSerializer):
     permissions = serializers.SerializerMethodField()
+    token = serializers.SerializerMethodField()
 
     class Meta(UserSerializer.Meta):
         fields = UserSerializer.Meta.fields + [
             'permissions',
             'token',
         ]
+
+    @extend_schema_field(str)
+    def get_token(self, request):
+        return self.instance.token
 
     @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_permissions(self, request):

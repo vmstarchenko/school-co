@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'rest_framework',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,45 @@ STATIC_ROOT = VAR_DIR / 'static'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# DRF settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        'base.permissions.ModelPermissions',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'base.pagination.LimitOffsetPagination',
+    'DEFAULT_RENDERER_CLASSES': [
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+        'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'base.openapi.AutoSchema',
+}
+
+
+# DRF Spectacular
+# https://drf-spectacular.readthedocs.io/en/latest/settings.html
+SPECTACULAR_SETTINGS = {
+    'VERSION': '0.0.1',
+    'SCHEMA_PATH_PREFIX': '/api',
+    'SCHEMA_PATH_PREFIX_TRIM': True,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'COMPONENT_SPLIT_PATCH': False,
+    'COMPONENT_NO_READ_ONLY_REQUIRED': True,
+    'CAMELIZE_NAMES': True,
+    'POSTPROCESSING_HOOKS': [
+        'drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields',
+    ],
+    'SORT_OPERATION_PARAMETERS': False,
+}
