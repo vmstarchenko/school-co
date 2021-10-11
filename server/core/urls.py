@@ -18,12 +18,20 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
 
+from base.urls import router as base_router
+from school_co.urls import router as school_co_router
+
+router = routers.DefaultRouter()
+router.registry.extend(base_router.registry)
+router.registry.extend(school_co_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path('', include('school_co.urls')),
+    path('api/', include(router.urls)),
 ]
 
 if settings.DEBUG:
