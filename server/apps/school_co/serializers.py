@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import School, Pupil, LearnerTextGenre, LearnerText, AnnotationType, LearnerTextAnnotation
+from .models import School, Pupil, LearnerTextGenre, LearnerText, AnnotationType, LearnerTextAnnotation, LearnerTextScanPage
+
+from base.serializers import BaseUploadedFileSerializer
 
 
 class SchoolSerializer(serializers.HyperlinkedModelSerializer):
@@ -59,4 +61,10 @@ class AnnotationTypeSerializer(serializers.HyperlinkedModelSerializer):
 class LearnerTextAnnotationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = LearnerTextAnnotation
+        fields = '__all__'
+
+
+class LearnerTextScanPageSerializer(BaseUploadedFileSerializer):
+    class Meta:
+        model = LearnerTextScanPage
         fields = '__all__'

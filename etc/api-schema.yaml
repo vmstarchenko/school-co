@@ -885,6 +885,35 @@ paths:
       responses:
         '204':
           description: No response body
+  /upload_file/:
+    post:
+      operationId: fileUpload
+      parameters:
+      - in: query
+        name: key
+        schema:
+          type: string
+          enum:
+          - learner_text.scan_page
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFileRequest'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadedFile'
+          description: ''
   /user/:
     get:
       operationId: userList
@@ -1515,6 +1544,30 @@ components:
           maxLength: 128
       required:
       - name
+    UploadFileRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+      required:
+      - file
+    UploadedFile:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+        name:
+          type: string
+        uid:
+          type: string
+      required:
+      - id
+      - name
+      - uid
+      - url
     User:
       type: object
       properties:

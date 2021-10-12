@@ -19,5 +19,6 @@ export * from './pupil';
 export * from './pupilRequest';
 export * from './school';
 export * from './schoolRequest';
+export * from './uploadedFile';
 export * from './user';
 export * from './userRequest';

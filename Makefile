@@ -27,9 +27,11 @@ api_client: api_schema
 	cp etc/api-schema.yaml etc/docker/openapitools/api-schema.yaml && \
 	docker build etc/docker/openapitools -t local-openapitools && \
 	docker run -v "${PWD}/var/volumes/api_client":/home/user/api_client --rm local-openapitools \
-		generate -i ./etc/api-schema.yaml -g typescript-angular -o ./api_client && \
+		generate -i ./etc/api-schema.yaml -g typescript-angular -o ./api_client/ts_angular && \
+	docker run -v "${PWD}/var/volumes/api_client":/home/user/api_client --rm local-openapitools \
+		generate -i ./etc/api-schema.yaml -g python -o ./api_client/py && \
 	rm -r ./ui/src/api.d ; \
-	cp -r ./var/volumes/api_client ./ui/src/api.d
+	cp -r ./var/volumes/api_client/ts_angular ./ui/src/api.d
 
 manage:
 	docker-compose run server python manage.py

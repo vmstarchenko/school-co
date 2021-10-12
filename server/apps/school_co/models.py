@@ -1,7 +1,11 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from base.models import BaseUploadedFile
+
+
 User = get_user_model()
+
 
 class School(models.Model):
     name = models.CharField(
@@ -9,14 +13,17 @@ class School(models.Model):
         help_text="название школы в которой учится ученик"
     )
 
+
 class Pupil(models.Model):
     full_name = models.CharField(max_length=128, help_text="ФИО")
     education_level = models.IntegerField(help_text="класс")
     school = models.ForeignKey('School', on_delete=models.PROTECT)
     # регион
 
+
 class LearnerTextGenre(models.Model):
     title = models.CharField(max_length=128, help_text="человекочитаемое название жанра")
+
 
 class LearnerText(models.Model):
     class Status(models.IntegerChoices):
@@ -28,11 +35,13 @@ class LearnerText(models.Model):
     status = models.IntegerField(choices=Status.choices)
     genre = models.ForeignKey('LearnerTextGenre', on_delete=models.PROTECT)
 
+
 class AnnotationType(models.Model):
     name = models.CharField(max_length=64, help_text="человекочитаемое название")
     key = models.CharField(
         max_length=64,
         help_text="ключи являются materialized path и позволяют делать из типов аннотаций иерархичную структуру")
+
 
 class LearnerTextAnnotation(models.Model):
     learner_text = models.ForeignKey('LearnerText', on_delete=models.PROTECT)
@@ -48,3 +57,13 @@ class LearnerTextAnnotation(models.Model):
     comment = models.TextField(blank=True, default="")
     annotation_type = models.ForeignKey('AnnotationType', on_delete=models.PROTECT)
     checker = models.ForeignKey(User, on_delete=models.PROTECT)
+
+
+class LearnerTextScanPage(BaseUploadedFile):
+    file = models.ImageField(upload_to='learner_text_scan_page')
+    object = models.ForeignKey(
+        'LearnerText',
+        on_delete=models.PROTECT,
+        null=True, blank=True,
+    )
+

@@ -1,10 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
-# -*- coding: utf-8 -*-
-from django.contrib import admin
-
-from .models import School, Pupil, LearnerTextGenre, LearnerText, AnnotationType, LearnerTextAnnotation
+from .models import School, Pupil, LearnerTextGenre, LearnerText, AnnotationType, LearnerTextAnnotation, LearnerTextScanPage
 
 
 @admin.register(School)
@@ -49,3 +45,8 @@ class LearnerTextAnnotationAdmin(admin.ModelAdmin):
         'checker',
     )
     list_filter = ('annotation_type',)
+
+
+@admin.register(LearnerTextScanPage)
+class LearnerTextScanPageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'created', 'file', 'object')

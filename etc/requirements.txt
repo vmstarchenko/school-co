@@ -8,3 +8,4 @@ djangorestframework-camel-case
 drf-spectacular
 markdown
 mysqlclient
+Pillow

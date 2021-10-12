@@ -13,4 +13,5 @@ router.register(r'annotation_type', views.AnnotationTypeViewSet, 'annotationtype
 router.register(r'learner_text_annotation', views.LearnerTextAnnotationViewSet, 'learnertextannotation')
 
 urlpatterns = [
+    path('api/upload_file/', views.FileUploadView.as_view()),
 ]
