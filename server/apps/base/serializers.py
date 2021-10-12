@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 from .models import User
 
@@ -26,7 +27,10 @@ class FullUserSerializer(UserSerializer):
 
     @extend_schema_field(str)
     def get_token(self, request):
-        return self.instance.token
+        try:
+            return self.instance.token
+        except Token.DoesNotExist:
+            return None
 
     @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_permissions(self, request):

@@ -11,6 +11,9 @@ migrations:
 migrate:
 	docker-compose run server python manage.py migrate
 
+createsuperuser:
+	docker-compose run server python manage.py createsuperuser
+
 connect:
 	docker-compose run server bash
 
