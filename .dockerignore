@@ -1,2 +1,7 @@
 var
 venv
+.git
+.idea
+Include
+Lib
+Scripts

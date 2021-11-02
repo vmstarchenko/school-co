@@ -20,7 +20,7 @@ class User(AbstractUser):
             return None
 
     @property
-    def permissions(self):
+    def permissions(self):  # statistics ex
         permissions = None
         if self.is_superuser:
             permissions = Permission.objects.all()

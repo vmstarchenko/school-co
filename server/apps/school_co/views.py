@@ -1,9 +1,12 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, views, parsers, permissions, serializers
 from rest_framework.response import Response
-from school_co.serializers import SchoolSerializer, PupilSerializer, LearnerTextGenreSerializer, LearnerTextSerializer, AnnotationTypeSerializer, LearnerTextAnnotationSerializer
-from school_co.models import School, Pupil, LearnerTextGenre, LearnerText, AnnotationType, LearnerTextAnnotation, LearnerTextScanPage
+from .serializers import SchoolSerializer, PupilSerializer, LearnerTextGenreSerializer, AnnotationTypeSerializer, PrintAnnotationSerializer, ScanAnnotationSerializer, \
+    RegionSerializer, TeacherSerializer, ScanTextSerializer, PrintTextSerializer, ScanPageSerializer
+from .models import School, Pupil, LearnerTextGenre, AnnotationType, PrintAnnotation, ScanPage, ScanAnnotation, Region, \
+    Teacher, ScanText, PrintText
 from drf_spectacular.utils import extend_schema, OpenApiParameter
+
 
 
 class SchoolViewSet(viewsets.ModelViewSet):
@@ -11,10 +14,19 @@ class SchoolViewSet(viewsets.ModelViewSet):
     serializer_class = SchoolSerializer
 
 
+class RegionViewSet(viewsets.ModelViewSet):
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
+
+
+class TeacherViewSet(viewsets.ModelViewSet):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherSerializer
+
+
 class PupilViewSet(viewsets.ModelViewSet):
     queryset = Pupil.objects.all()
     serializer_class = PupilSerializer
-
 
 
 class LearnerTextGenreViewSet(viewsets.ModelViewSet):
@@ -22,11 +34,19 @@ class LearnerTextGenreViewSet(viewsets.ModelViewSet):
     serializer_class = LearnerTextGenreSerializer
 
 
+class ScanTextViewSet(viewsets.ModelViewSet):
+    queryset = ScanText.objects.all()
+    serializer_class = ScanTextSerializer
 
-class LearnerTextViewSet(viewsets.ModelViewSet):
-    queryset = LearnerText.objects.all()
-    serializer_class = LearnerTextSerializer
 
+class PrintTextViewSet(viewsets.ModelViewSet):
+    queryset = PrintText.objects.all()
+    serializer_class = PrintTextSerializer
+
+
+class ScanPageViewSet(viewsets.ModelViewSet):
+    queryset = ScanPage.objects.all()
+    serializer_class = ScanPageSerializer
 
 
 class AnnotationTypeViewSet(viewsets.ModelViewSet):
@@ -34,18 +54,21 @@ class AnnotationTypeViewSet(viewsets.ModelViewSet):
     serializer_class = AnnotationTypeSerializer
 
 
+class PrintAnnotationViewSet(viewsets.ModelViewSet):
+    queryset = PrintAnnotation.objects.all()
+    serializer_class = PrintAnnotationSerializer
 
-class LearnerTextAnnotationViewSet(viewsets.ModelViewSet):
-    queryset = LearnerTextAnnotation.objects.all()
-    serializer_class = LearnerTextAnnotationSerializer
 
+class ScanAnnotationViewSet(viewsets.ModelViewSet):
+    queryset = ScanAnnotation.objects.all()
+    serializer_class = ScanAnnotationSerializer
 
 
 class FileUploadView(views.APIView):
     parser_classes = (parsers.MultiPartParser, )
     permission_classes = [permissions.IsAuthenticated]
     KEYS = {
-        'learner_text.scan_page': LearnerTextScanPage,
+        'learner_text.scan_page': ScanPage,
     }
 
     class UploadFileSerializer(serializers.Serializer):

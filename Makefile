@@ -5,8 +5,7 @@ down:
 	docker-compose down --remove-orphans
 
 migrations:
-	docker-compose run server python manage.py makemigrations \
-		&& docker-compose run server python manage.py migrate
+	docker-compose run server python manage.py makemigrations && docker-compose run server python manage.py migrate
 
 migrate:
 	docker-compose run server python manage.py migrate
