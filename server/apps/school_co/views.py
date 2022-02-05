@@ -1,11 +1,34 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, views, parsers, permissions, serializers
 from rest_framework.response import Response
+
+from .forms import RegistrationFormTeacher
 from .serializers import SchoolSerializer, PupilSerializer, LearnerTextGenreSerializer, AnnotationTypeSerializer, PrintAnnotationSerializer, ScanAnnotationSerializer, \
     RegionSerializer, TeacherSerializer, ScanTextSerializer, PrintTextSerializer, ScanPageSerializer
 from .models import School, Pupil, LearnerTextGenre, AnnotationType, PrintAnnotation, ScanPage, ScanAnnotation, Region, \
     Teacher, ScanText, PrintText
 from drf_spectacular.utils import extend_schema, OpenApiParameter
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+
+
+def registration_teacher_view(request):
+    context = {}
+    if request.POST:
+        form = RegistrationFormTeacher(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            account = authenticate(email = email, password=raw_password)
+            login(request, account)
+            return redirect('admin')# -----> whereeeeeee??
+        else:
+            context['teacher_registration_form'] = form
+    else:
+        form = form = RegistrationFormTeacher()
+        context['teacher_registration_form'] = form
+    return render (request, 'account/register.html', context) #TODO jwt
 
 
 

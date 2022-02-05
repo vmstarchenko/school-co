@@ -11,7 +11,10 @@ from rest_framework.authtoken.models import Token
 from . import fields
 
 
-class User(AbstractUser):
+class User(AbstractUser): #for login process
+    USERNAME_FIELD = 'email'
+    email = models.EmailField(('Email'), unique=True)  # changes email to unique and blank to false
+    REQUIRED_FIELDS = ['username']  # removes email from REQUIRED_FIELDS
     @property
     def token(self):
         try:

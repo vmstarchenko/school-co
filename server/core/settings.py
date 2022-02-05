@@ -51,14 +51,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'base',
     'school_co',
-
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
     'drf_spectacular',
+    'djoser',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -153,6 +153,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication', #for jwt tokens that we are gonna use
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -171,6 +172,23 @@ REST_FRAMEWORK = {
         'djangorestframework_camel_case.parser.CamelCaseJSONParser',
     ],
     'DEFAULT_SCHEMA_CLASS': 'base.openapi.AutoSchema',
+}
+
+
+# TODO smtp
+# EMAIL_USE_TLS
+# EMAIL_HOST
+# EMAIL_HOST_USER
+# EMAIL_HOST_PASSWORD
+# EMAIL_PORT
+
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL':'#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL':'#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL':'#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False, #then change to True
+    'SERIALIZERS': {},
 }
 
 

@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+import djoser
 
 from base.urls import router as base_router
 from school_co.urls import router as school_co_router
@@ -28,11 +29,18 @@ router.registry.extend(base_router.registry)
 router.registry.extend(school_co_router.registry)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, 'admin'),
     path('', include('base.urls')),
     path('', include('school_co.urls')),
     path('api/', include(router.urls)),
     path('api/auth/', include('rest_framework.urls')),
+    # path to djoser end points - потом можно поменять на 'api/auth/'
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+    path('auth/', include('djoser.urls.jwt')),
+    # path to our account's app endpoints
+    path("api/accounts/", include("accounts.urls")),
+    path('register', 'registration_teacher_view'), #registration form
 ]
 
 if settings.DEBUG:

@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     class LoginFormSerializer(serializers.Serializer):
-        username = serializers.CharField()
+        email = serializers.CharField()
         password = serializers.CharField()
 
     class EmptySerializer(serializers.Serializer):
